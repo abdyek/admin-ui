@@ -1,17 +1,32 @@
 <script setup>
 
+const props = defineProps({
+  size: {
+    type: String,
+    default: '24px',
+  },
+  color: {
+    type: String,
+    default: 'black',
+  },
+})
+
 </script>
 <template>
-  <span class="loader"></span>
+  <span class="loader" :style="
+    {
+      width: props.size,
+      height: props.size,
+      borderTopColor: props.color,
+    }
+  "></span>
 </template>
 <style scoped>
 .loader {
-  width: 24px;
-  height: 24px;
   border-radius: 50%;
   display: inline-block;
-  border-top: 3px solid #FFF;
-  border-right: 3px solid transparent;
+  border-top: 4px solid #FFF;
+  border-right: 4px solid transparent;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
 }
