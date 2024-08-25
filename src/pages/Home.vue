@@ -3,6 +3,8 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import Loader from '@/components/Loader.vue'
+import Header from '@/components/Header.vue'
+import Pages from '@/components/Pages.vue'
 
 const router = useRouter()
 
@@ -30,9 +32,10 @@ onMounted(() => {
       </div>
       <div
         v-else
-        class="grid h-screen"
+        class="h-screen"
       >
-        Here is admin home page
+        <Header />
+        <Pages />
       </div>
     </div>
   </div>
