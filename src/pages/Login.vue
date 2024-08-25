@@ -45,17 +45,17 @@ function login() {
 
 </script>
 <template>
-<div class="bg-slate-800">
+<div class="bg-stone-800">
   <div class="lg:container mx-auto">
     <div class="grid place-items-center h-screen">
       <Loader v-if="loading" size="150px" color="#333" />
       <form class="w-96" v-else>
-        <label class="inline-block w-full p-2 text-lime-100" for="username">Username or Email</label><br>
-        <input class="inline-block w-full p-3 text-slate-800" type="text" id="username" v-model="username"><br>
-        <label class="inline-block w-full p-2 text-lime-100" for="password">Password</label><br>
-        <input class="inline-block w-full p-3 text-slate-800" type="password" id="password" v-model="password"><br><br>
-        <span class="block text-slate-100 bg-red-600 p-5 rounded-lg mb-2" v-if="unauthorized">Incorrect username/email or password.</span>
-        <button :class="['float-right p-4 bg-lime-100 text-slate-800 rounded-lg w-20 my-2', loginLoading? 'opacity-50': 'opacity-100']" type="button" @click="login">
+        <label class="inline-block w-full p-2 text-stone-50" for="username">Username or Email</label><br>
+        <input class="inline-block w-full p-3 text-stone-800" type="text" id="username" v-model="username"><br>
+        <label class="inline-block w-full p-2 text-stone-50" for="password">Password</label><br>
+        <input class="inline-block w-full p-3 text-stone-800" type="password" id="password" v-model="password"><br><br>
+        <span class="block text-stone-100 bg-red-600 p-5 rounded-lg mb-2" v-if="unauthorized">Incorrect username/email or password.</span>
+        <button :class="['float-right p-4 bg-blue-300 text-slate-800 rounded-lg w-20 my-2', loginLoading? 'opacity-50': 'opacity-100']" type="button" @click="login">
           <Loader v-if="loginLoading" />
           <span v-else class="my-1 block">
             Login
