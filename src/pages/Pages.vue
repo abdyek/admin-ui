@@ -12,6 +12,7 @@ onMounted(() => {
   axios.get('/api/v1/pages').then((resp) => {
     pages.value = resp.data.pages
   }).catch((err) => {
+    // TODO: handle the error
     console.log(err)
   })
 })

@@ -1,26 +1,15 @@
 <script setup>
-import { ref, onMounted }from 'vue'
+import { ref }from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import Loader from '@/components/Loader.vue'
 
 const router = useRouter()
 
-const loading = ref(true)
 const loginLoading = ref(false)
 const username = ref("")
 const password = ref("")
 const unauthorized = ref(false)
-
-onMounted(() => {
-  axios.get('/api/v1/me').then((resp) => {
-    if (resp.data.logged_in) {
-      router.push('/')
-    } else {
-      loading.value = false
-    }
-  })
-})
 
 function login() {
   loginLoading.value = true
@@ -47,8 +36,7 @@ function login() {
 <template>
   <div class="lg:container mx-auto">
     <div class="grid place-items-center h-screen">
-      <Loader v-if="loading" size="150px" color="#333" />
-      <form class="w-96" v-else>
+      <form class="w-96">
         <h1 class="text-5xl text-stone-50">Umono</h1>
         <label class="inline-block w-full p-2 text-stone-50" for="username">Username</label><br>
         <input class="inline-block w-full p-3 text-stone-800" type="text" id="username" v-model="username" placeholder="or Email"><br>

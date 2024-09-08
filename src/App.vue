@@ -1,9 +1,23 @@
 <script setup>
-import { computed } from 'vue'
-import { RouterView, useRoute } from 'vue-router'
+import axios from 'axios'
+import { ref, computed, onMounted } from 'vue'
+import { RouterView, useRoute, useRouter } from 'vue-router'
+import Loader from '@/components/Loader.vue'
 import Header from '@/components/Header.vue'
 
 const route = useRoute()
+const router = useRouter()
+
+const loading = ref(true)
+
+onMounted(() => {
+  axios.get('/api/v1/me').then((resp) => {
+    loading.value = false
+    if (!resp.data.logged_in) {
+      router.push('/login')
+    }
+  })
+})
 
 const noHeader = computed(() => {
   if (route.path == "/login") {
@@ -16,7 +30,10 @@ const noHeader = computed(() => {
 </script>
 <template>
   <div class="bg-stone-900 text-stone-50">
-    <div class="lg:container mx-auto h-screen">
+    <div v-if="loading" class="grid place-items-center h-screen" >
+      <Loader size="150px" color="#333" />
+    </div>
+    <div class="lg:container mx-auto h-screen" v-else>
       <Header v-if="!noHeader" />
       <RouterView />
     </div>
