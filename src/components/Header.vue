@@ -25,13 +25,13 @@ function logout() {
 
 </script>
 <template>
-  <div class="flex justify-between items-end p-3 h-20 text-stone-50">
+  <div class="flex justify-between items-end mb-8 h-20 text-stone-50">
     <div class="flex items-end">
       <h1 class="text-5xl cursor-pointer" @click="router.push('/')">Umono</h1>
       <h2 class="text-2xl rounded-lg mx-4 cursor-pointer hover:bg-blue-300 p-2" @click="router.push('/pages')">Pages</h2>
     </div>
     <div>
-      <button :class="'text-slate-800 bg-orange-300 p-3 rounded-lg w-24', logoutLoading ? 'opacity-50': 'opacity-100'" type="button" @click="logout">
+      <button :class="'text-slate-800 bg-orange-300 p-2 rounded-lg w-24', logoutLoading ? 'opacity-50': 'opacity-100'" type="button" @click="logout">
         <Loader v-if="logoutLoading" />
         <span v-else class="my-1 block">
           Sign out
