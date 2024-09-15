@@ -1,6 +1,10 @@
 <script setup>
+import axios from 'axios'
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import Editor from '@/components/Editor.vue'
+
+const router = useRouter()
 
 const page = ref({
   id: null,
@@ -26,7 +30,14 @@ const isPageEmpty = computed(() => {
 })
 
 function createPage() {
-  console.log("creating code here..")
+  axios.post('/api/v1/pages', {
+    page: page.value,
+  }).then((resp) => {
+    router.push('/pages/' + resp.data.page.id)
+  }).catch((err) => {
+    console.log(err)
+    // TODO: Handle the error
+  })
 }
 
 </script>

@@ -4,6 +4,7 @@ import Home from '@/pages/Home.vue'
 import Login from '@/pages/Login.vue'
 import Pages from '@/pages/Pages.vue'
 import NewPage from '@/pages/NewPage.vue'
+import EditPage from '@/pages/EditPage.vue'
 
 const routes = [
   {
@@ -21,6 +22,11 @@ const routes = [
   {
     path: '/new-page',
     component: NewPage,
+  },
+  {
+    path: '/pages/:id',
+    component: EditPage,
+    props: true,
   },
 ]
 

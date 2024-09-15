@@ -42,6 +42,13 @@ function changeSlug(e) {
   })
 }
 
+function changeContent(e) {
+  emit('changePage', {
+    ...props.page,
+    content: e.target.value,
+  })
+}
+
 </script>
 <template>
   <input placeholder="Name" class="h-7 text-slate-300 bg-slate-700 w-full block focus:ring focus:outline-none focus:ring-slate-400  p-2 rounded mb-3" :value="props.page.name" @input="changeName" />
@@ -57,7 +64,7 @@ function changeSlug(e) {
   <input placeholder="Slug" class="h-7 text-slate-300 bg-slate-700 w-full block focus:ring focus:outline-none focus:ring-slate-400  p-2 rounded" :value="props.page.slug" @input="changeSlug"/>
   <div class="grid grid-cols-2 gap-2">
     <div class="h-[calc(100vh-18rem)]">
-      <textarea placeholder="Content" class="text-slate-300 bg-slate-700 focus:ring focus:outline-none focus:ring-slate-400 p-2 w-full block mt-4 rounded-md resize-none h-full" :value="props.page.content"></textarea>
+      <textarea placeholder="Content" class="text-slate-300 bg-slate-700 focus:ring focus:outline-none focus:ring-slate-400 p-2 w-full block mt-4 rounded-md resize-none h-full" :value="props.page.content" @input="changeContent"></textarea>
     </div>
     <div>Here is HTML output</div>
   </div>
