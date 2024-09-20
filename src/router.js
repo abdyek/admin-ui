@@ -30,6 +30,13 @@ const routes = [
   },
 ]
 
+if (import.meta.env.MODE == "development") {
+  routes.push({
+    path: '/dev/components',
+    component: () => import('@/dev/Components.vue'),
+  })
+}
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
