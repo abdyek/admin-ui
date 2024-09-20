@@ -3,9 +3,11 @@ import axios from 'axios'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import Editor from '@/components/Editor.vue'
+import Button from '@/components/Button.vue'
 
 const router = useRouter()
 
+const loading = ref(false)
 const page = ref({
   id: null,
   name: "",
@@ -30,6 +32,7 @@ const isPageEmpty = computed(() => {
 })
 
 function createPage() {
+  loading.value = true
   axios.post('/api/v1/pages', {
     page: page.value,
   }).then((resp) => {
@@ -37,6 +40,8 @@ function createPage() {
   }).catch((err) => {
     console.log(err)
     // TODO: Handle the error
+  }).finally(() => {
+    loading.value = false
   })
 }
 
@@ -47,7 +52,7 @@ function createPage() {
       <h2 :class="['transition-all duration-500 ease-in-out', page.name.length == 0 ? 'text-2xl': 'text-sm']">New Page</h2>
       <h2 class="text-2xl" v-if="page.name.length > 0">{{ page.name}}</h2>
     </div>
-    <button class="inline rounded-lg p-2 mx-2 text-l bg-blue-200 text-slate-800" :disabled="isPageEmpty" @click="createPage">Create</button>
+    <Button :disabled="isPageEmpty" name="Create" color="blue" @click="createPage" :loading="loading" />
   </div>
   <Editor
     :page="page"

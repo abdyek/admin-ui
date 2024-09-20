@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
-import Loader from '@/components/Loader.vue'
+import Button from '@/components/Button.vue'
 
 const router = useRouter()
 
@@ -31,12 +31,7 @@ function logout() {
       <h2 class="text-2xl rounded-lg mx-4 cursor-pointer hover:bg-blue-300 p-2" @click="router.push('/pages')">Pages</h2>
     </div>
     <div>
-      <button :class="'text-slate-800 bg-orange-300 p-2 rounded-lg w-24', logoutLoading ? 'opacity-50': 'opacity-100'" type="button" @click="logout">
-        <Loader v-if="logoutLoading" />
-        <span v-else class="my-1 block">
-          Sign out
-        </span>
-      </button>
+      <Button name="Sign out" color="orange" size="small" @click="logout" :loading="logoutLoading" />
     </div>
   </div>
 </template>

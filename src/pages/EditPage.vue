@@ -4,6 +4,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import Loader from '@/components/Loader.vue'
 import Editor from '@/components/Editor.vue'
+import Button from '@/components/Button.vue'
 
 const router = useRouter()
 
@@ -12,6 +13,9 @@ const props = defineProps({
 })
 
 const loading = ref(false)
+const updateLoading = ref(false)
+const deleteLoading = ref(false)
+
 const firstForm = ref({})
 const page = ref({
   id: null,
@@ -47,6 +51,7 @@ function load() {
 }
 
 function updatePage() {
+  updateLoading.value = true
   axios.put('/api/v1/pages', {
     page: page.value,
   }).then((resp) => {
@@ -54,16 +59,21 @@ function updatePage() {
   }).catch((err) => {
     // TODO: Handle the error
     console.log(err)
+  }).finally(() => {
+    updateLoading.value = false
   })
 }
 
 function deletePage() {
   // TODO: Add a confirmation popup
+  deleteLoading.value = true
   axios.delete('/api/v1/pages/' + props.id).then((resp) => {
     router.push('/pages')
   }).catch((err) => {
     // TODO: Handle the error
     console.log(err)
+  }).finally(() => {
+    deleteLoading.value = false
   })
 }
 
@@ -80,8 +90,8 @@ function deletePage() {
           <h2 class="text-2xl" v-if="page.name.length > 0">{{ page.name}}</h2>
         </div>
         <div>
-          <button class="inline rounded-lg p-2 ml-2 text-l bg-blue-200 text-slate-800" :disabled="!changed" @click="updatePage">Update</button>
-          <button class="inline rounded-lg p-2 ml-2 text-l bg-red-200 text-slate-800" @click="deletePage">Delete</button>
+          <Button name="Update" color="blue" :loading="updateLoading" :disabled="!changed" @click="updatePage" />
+          <Button name="Delete" color="red" :loading="deleteLoading" @click="deletePage" />
         </div>
       </div>
       <Editor
