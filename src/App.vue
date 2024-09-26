@@ -4,6 +4,7 @@ import { ref, computed, onMounted } from 'vue'
 import { RouterView, useRoute, useRouter } from 'vue-router'
 import Loader from '@/components/Loader.vue'
 import Header from '@/components/Header.vue'
+import Dialog from '@/components/Dialog.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -37,5 +38,6 @@ const noHeader = computed(() => {
       <Header v-if="!noHeader" />
       <RouterView />
     </div>
+    <Dialog />
   </div>
 </template>

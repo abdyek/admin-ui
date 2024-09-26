@@ -1,5 +1,33 @@
 <script setup>
 import Button from '@/components/Button.vue'
+import Dialog from '@/components/Dialog.vue'
+import { useDialogStore } from '@/stores/dialog.js'
+
+const dialogStore = useDialogStore()
+
+function showDialog() {
+  dialogStore.show({
+    title: "Emin misiniz?",
+    content: "Bu işlemi gerçekleştirmek istediğinizden emin misiniz?",
+    buttons: [
+      {
+        name: "No",
+        color: "orange",
+        action: () => {
+
+        },
+      },
+      {
+        name: "Yes",
+        color: "blue",
+        action: () => {
+
+        },
+        keep: true,
+      },
+    ],
+  })
+}
 
 </script>
 <template>
@@ -23,4 +51,6 @@ import Button from '@/components/Button.vue'
   <Button name="Red" color="red" disabled />
   <Button name="Orange" color="orange" disabled />
   <Button name="Yellow" color="yellow" disabled />
+  <h2>Dialog</h2>
+  <Button name="Show Dialog" @click="showDialog()" />
 </template>
