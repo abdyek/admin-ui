@@ -5,8 +5,10 @@ import { useRouter } from 'vue-router'
 import Loader from '@/components/Loader.vue'
 import Editor from '@/components/Editor.vue'
 import Button from '@/components/Button.vue'
+import { useDialogStore } from '@/stores/dialog.js'
 
 const router = useRouter()
+const dialogStore = useDialogStore()
 
 const props = defineProps({
   id: String,
@@ -66,14 +68,27 @@ function updatePage() {
 
 function deletePage() {
   // TODO: Add a confirmation popup
-  deleteLoading.value = true
-  axios.delete('/api/v1/pages/' + props.id).then((resp) => {
-    router.push('/pages')
-  }).catch((err) => {
-    // TODO: Handle the error
-    console.log(err)
-  }).finally(() => {
-    deleteLoading.value = false
+  dialogStore.show({
+    title: "Are you sure?",
+    content: "Are you sure you want to delete this page?",
+    buttons: [
+      { name: "No" },
+      {
+        name: "Delete",
+        color: "red",
+        action: () => {
+          deleteLoading.value = true
+          axios.delete('/api/v1/pages/' + props.id).then((resp) => {
+            router.push('/pages')
+          }).catch((err) => {
+            // TODO: Handle the error
+            console.log(err)
+          }).finally(() => {
+            deleteLoading.value = false
+          })
+        },
+      },
+    ],
   })
 }
 

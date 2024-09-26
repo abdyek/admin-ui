@@ -3,23 +3,38 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import Button from '@/components/Button.vue'
+import { useDialogStore } from '@/stores/dialog.js'
 
 const router = useRouter()
+const dialogStore = useDialogStore()
 
 const logoutLoading = ref(false)
 
 function logout() {
-  logoutLoading.value = true
-  axios.post('/api/v1/logout').then((resp) => {
-    router.push('/login')
-  }).catch((err) => {
-    if (err.response.status == 401) {
-      unauthorized.value = true
-      username.value = ""
-      password.value = ""
-    }
-  }).finally(() => {
-    logoutLoading.value = false
+  dialogStore.show({
+    title: "Are you sure?",
+    content: "Are you sure you want to sign out?",
+    buttons: [
+      { name: "No" },
+      {
+        name: "Sign out",
+        color: "orange",
+        action: () => {
+          logoutLoading.value = true
+          axios.post('/api/v1/logout').then((resp) => {
+            router.push('/login')
+          }).catch((err) => {
+            if (err.response.status == 401) {
+              unauthorized.value = true
+              username.value = ""
+              password.value = ""
+            }
+          }).finally(() => {
+            logoutLoading.value = false
+          })
+        },
+      },
+    ],
   })
 }
 
