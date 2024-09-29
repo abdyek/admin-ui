@@ -8,6 +8,7 @@ import Button from '@/components/Button.vue'
 const router = useRouter()
 
 const loading = ref(false)
+const validToCreate = ref(false)
 const page = ref({
   id: null,
   name: "",
@@ -52,10 +53,11 @@ function createPage() {
       <h2 :class="['transition-all duration-500 ease-in-out', page.name.length == 0 ? 'text-2xl': 'text-sm']">New Page</h2>
       <h2 class="text-2xl" v-if="page.name.length > 0">{{ page.name}}</h2>
     </div>
-    <Button :disabled="isPageEmpty" name="Create" color="blue" @click="createPage" :loading="loading" />
+    <Button :disabled="!validToCreate" name="Create" color="blue" @click="createPage" :loading="loading" />
   </div>
   <Editor
     :page="page"
     @changePage="(p) => {page = p}"
+    @checkValidation="(v) => { validToCreate = v}"
   />
 </template>

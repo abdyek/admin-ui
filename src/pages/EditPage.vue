@@ -19,6 +19,7 @@ const updateLoading = ref(false)
 const deleteLoading = ref(false)
 
 const firstForm = ref({})
+const validToUpdate = ref(false)
 const page = ref({
   id: null,
   name: "",
@@ -105,13 +106,14 @@ function deletePage() {
           <h2 class="text-2xl" v-if="page.name.length > 0">{{ page.name}}</h2>
         </div>
         <div>
-          <Button name="Update" color="blue" :loading="updateLoading" :disabled="!changed" @click="updatePage" />
+          <Button name="Update" color="blue" :loading="updateLoading" :disabled="!validToUpdate || !changed" @click="updatePage" />
           <Button name="Delete" color="red" :loading="deleteLoading" @click="deletePage" />
         </div>
       </div>
       <Editor
         :page="page"
         @changePage="(p) => {page = p}"
+        @checkValidation="(v) => { validToUpdate = v }"
         />
     </div>
   </div>
