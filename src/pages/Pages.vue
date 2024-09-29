@@ -22,7 +22,7 @@ onMounted(() => {
 <template>
   <div class="mb-4">
     <h2 class="text-2xl inline">Pages</h2>
-    <Button name="Create New Page" color="blue" size="small" @click="router.push('/new-page')" />
+    <Button name="Create" color="blue" size="small" @click="router.push('/new-page')" />
   </div>
   <div class="grid grid-cols-4 gap-4 mx-4">
     <span>Name</span>
