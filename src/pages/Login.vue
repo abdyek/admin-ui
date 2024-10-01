@@ -3,6 +3,7 @@ import { ref, computed }from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import Button from '@/components/Button.vue'
+import Alert from '@/components/Alert.vue'
 
 const router = useRouter()
 
@@ -46,10 +47,10 @@ const disabledLogin = computed(() => {
       <form class="w-96">
         <h1 class="text-5xl text-stone-50">Umono</h1>
         <label class="inline-block w-full p-2 text-stone-50" for="username">Username</label><br>
-        <input class="inline-block w-full p-3 text-stone-800" type="text" id="username" v-model="username" placeholder="or Email"><br>
+        <input class="inline-block w-full p-3 text-stone-800 rounded-md" type="text" id="username" v-model="username" placeholder="or Email"><br>
         <label class="inline-block w-full p-2 text-stone-50" for="password">Password</label><br>
-        <input class="inline-block w-full p-3 text-stone-800" type="password" id="password" v-model="password" placeholder="Password"><br><br>
-        <span class="block text-stone-100 bg-red-600 p-5 rounded-lg mb-2" v-if="unauthorized">Incorrect username/email or password.</span>
+        <input class="inline-block w-full p-3 text-stone-800 rounded-md" type="password" id="password" v-model="password" placeholder="Password"><br><br>
+        <Alert v-if="unauthorized" color="red" content="Incorrect username/email or password." />
         <Button name="Sign in" color="blue" :loading="loginLoading" :disabled="disabledLogin" @click="login" size="large" class="float-right" />
       </form>
     </div>

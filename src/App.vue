@@ -30,14 +30,12 @@ const noHeader = computed(() => {
 
 </script>
 <template>
-  <div class="bg-stone-900 text-stone-50">
-    <div v-if="loading" class="grid place-items-center h-screen" >
-      <Loader size="150px" color="#333" />
-    </div>
-    <div class="lg:container mx-auto h-screen" v-else>
-      <Header v-if="!noHeader" />
-      <RouterView />
-    </div>
-    <Dialog />
+  <div v-if="loading" class="grid place-items-center h-screen" >
+    <Loader size="150px" color="#333" />
   </div>
+  <div class="lg:container mx-auto h-screen" v-else>
+    <Header v-if="!noHeader" />
+    <RouterView />
+  </div>
+  <Dialog />
 </template>

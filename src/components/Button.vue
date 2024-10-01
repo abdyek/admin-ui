@@ -55,7 +55,7 @@ function click() {
 
 </script>
 <template>
-  <div :class="['rounded-lg inline-block m-1 select-none text-slate-800', 'bg-' + props.color + '-300', size, disabled]" @click="click">
+  <div :class="['rounded-md inline-block m-1 select-none text-slate-800', 'bg-' + props.color + '-300', size, disabled]" @click="click">
     <Loader size="15px" v-if="props.loading" />
     <span class="p-2">
       {{ props.name }}
