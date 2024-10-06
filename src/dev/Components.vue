@@ -1,7 +1,9 @@
 <script setup>
+import { ref } from 'vue'
 import Button from '@/components/Button.vue'
 import Dialog from '@/components/Dialog.vue'
 import Alert from '@/components/Alert.vue'
+import Switch from '@/components/Switch.vue'
 import { useDialogStore } from '@/stores/dialog.js'
 
 const dialogStore = useDialogStore()
@@ -29,6 +31,8 @@ function showDialog() {
     ],
   })
 }
+
+const switchValue = ref(false)
 
 </script>
 <template>
@@ -70,4 +74,10 @@ function showDialog() {
   <Alert size="large" content="Large with title" title="404" />
   <Alert size="medium" content="Medium with title" title="404" />
   <Alert size="small" content="Small with title" title="404" />
+  <h3>Switch</h3>
+  <Switch name="Blue" color="blue" v-model="switchValue" />
+  <Switch name="Green" color="green" v-model="switchValue" />
+  <Switch name="Red" color="red" v-model="switchValue" />
+  <Switch name="Orange" color="orange" v-model="switchValue" />
+  <Switch name="Yellow" color="yellow" v-model="switchValue" />
 </template>
