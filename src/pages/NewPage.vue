@@ -15,7 +15,7 @@ const page = ref({
   name: "",
   slug: "",
   content: "",
-  published: false,
+  enabled: false,
 })
 
 const isPageEmpty = computed(() => {
@@ -56,7 +56,7 @@ function createPage() {
       <h2 class="text-2xl" v-if="page.name.length > 0">{{ page.name}}</h2>
     </div>
     <div>
-      <Switch color="blue" name="Enabled" v-model:value="page.published" />
+      <Switch color="blue" name="Enabled" v-model="page.enabled" />
       <Button :disabled="!validToCreate" name="Create" color="blue" @click="createPage" :loading="loading" />
     </div>
   </div>

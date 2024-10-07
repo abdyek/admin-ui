@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router'
 import Loader from '@/components/Loader.vue'
 import Editor from '@/components/Editor.vue'
 import Button from '@/components/Button.vue'
+import Switch from '@/components/Switch.vue'
 import { useDialogStore } from '@/stores/dialog.js'
 
 const router = useRouter()
@@ -25,6 +26,7 @@ const page = ref({
   name: "",
   slug: "",
   content: "",
+  enabled: false,
 })
 
 onMounted(() => {
@@ -106,6 +108,8 @@ function deletePage() {
           <h2 class="text-2xl" v-if="page.name.length > 0">{{ page.name}}</h2>
         </div>
         <div>
+          <Switch color="blue" name="Enabled" v-model="page.enabled" />
+
           <Button name="Update" color="blue" :loading="updateLoading" :disabled="!validToUpdate || !changed" @click="updatePage" />
           <Button name="Delete" color="red" :loading="deleteLoading" @click="deletePage" />
         </div>

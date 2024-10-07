@@ -13,6 +13,6 @@ const props = defineProps({
     <span class="text-l">{{ props.page.name }}</span>
     <span class="text-l">.com/ {{ props.page.slug }}</span>
     <span class="text-l">{{ props.page.last_modified_at }}</span>
-    <span class="text-l">{{ props.page.published }}</span>
+    <span class="text-l">{{ props.page.enabled}}</span>
   </div>
 </template>

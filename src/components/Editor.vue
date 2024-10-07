@@ -13,6 +13,7 @@ const props = defineProps({
       name: "",
       slug: "",
       content: "",
+      enabled: false,
     },
   },
 })

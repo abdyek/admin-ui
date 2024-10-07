@@ -28,7 +28,7 @@ onMounted(() => {
     <span>Name</span>
     <span>Slug</span>
     <span>Last Modified</span>
-    <span>Published</span>
+    <span>Enabled</span>
   </div>
   <Page v-for="p in pages" :page="p"/>
 </template>
