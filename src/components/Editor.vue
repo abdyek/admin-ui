@@ -1,32 +1,27 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, defineModel, computed } from 'vue'
 import Alert from '@/components/Alert.vue'
 import { textToSlug, isValidSlug } from '@/helpers/slug.js'
 
-const emit = defineEmits(['changePage', 'checkValidation'])
-
-const props = defineProps({
-  page: {
-    type: Object,
-    default: {
-      id: null,
-      name: "",
-      slug: "",
-      content: "",
-      enabled: false,
-    },
-  },
+const page = defineModel("value", {
+  default: {
+    id: null,
+    name: "",
+    slug: "",
+    content: "",
+    enabled: false,
+  }
 })
 
-watch(() => props.page, (newVal, oldVal) => {
-  emit('checkValidation', checkValidation())
-});
+const valid = defineModel("valid", {
+  default: false,
+})
 
 const firstBlurNameField = ref(false)
 const firstBlurSlugField = ref(false)
 
 const showSlug = computed(() => {
-  if (props.page.slug.length > 0) {
+  if (page.value.slug.length > 0) {
     return true
   }
 
@@ -35,37 +30,20 @@ const showSlug = computed(() => {
 
 const slug = computed(() => {
   // TODO: .com will be dynamic
-  return ".com/" + props.page.slug
+  return ".com/" + page.value.slug
 })
 
 const invalidName = computed(() => {
-  return props.page.name == ""
+  return page.value.name == ""
 })
 
 const invalidSlug = computed(() => {
-  return !isValidSlug(props.page.slug)
+  return !isValidSlug(page.value.slug)
 })
 
 function changeName(e) {
-  emit('changePage', {
-    ...props.page,
-    name: e.target.value,
-    slug: textToSlug(e.target.value),
-  })
-}
-
-function changeSlug(e) {
-  emit('changePage', {
-    ...props.page,
-    slug: e.target.value,
-  })
-}
-
-function changeContent(e) {
-  emit('changePage', {
-    ...props.page,
-    content: e.target.value,
-  })
+  page.value.slug = textToSlug(e.target.value)
+  valid.value = checkValidation()
 }
 
 function checkValidation() {
@@ -82,7 +60,7 @@ function checkValidation() {
 
 </script>
 <template>
-  <input placeholder="Name" class="h-7 text-slate-300 bg-slate-700 w-full block focus:ring focus:outline-none focus:ring-slate-400  p-2 rounded-md mb-3" :value="props.page.name" @input="changeName" @blur="firstBlurNameField = true" />
+  <input placeholder="Name" class="h-7 text-slate-300 bg-slate-700 w-full block focus:ring focus:outline-none focus:ring-slate-400  p-2 rounded-md mb-3" v-model="page.name" @blur="firstBlurNameField = true" @input="changeName" />
   <Alert v-if="firstBlurNameField && invalidName" content="Invalid page name!" color="orange" />
     <transition
       name="slide-up"
@@ -93,11 +71,11 @@ function checkValidation() {
     >
     <span class="block" v-if="showSlug">{{ slug }}</span>
   </transition>
-  <input placeholder="Slug" class="h-7 text-slate-300 bg-slate-700 w-full block focus:ring focus:outline-none focus:ring-slate-400  p-2 rounded-md mb-3" :value="props.page.slug" @input="changeSlug" @blur="firstBlurSlugField = true"/>
+  <input placeholder="Slug" class="h-7 text-slate-300 bg-slate-700 w-full block focus:ring focus:outline-none focus:ring-slate-400  p-2 rounded-md mb-3" v-model="page.slug" @blur="firstBlurSlugField = true" @input="valid = checkValidation()"/>
   <Alert v-if="firstBlurSlugField && invalidSlug" content="Invalid page slug!" color="orange"/>
   <div class="grid grid-cols-2 gap-2">
     <div class="h-[calc(100vh-18rem)]">
-      <textarea placeholder="Content" class="text-slate-300 bg-slate-700 focus:ring focus:outline-none focus:ring-slate-400 p-2 w-full block mt-4 rounded-md resize-none h-full" :value="props.page.content" @input="changeContent"></textarea>
+      <textarea placeholder="Content" class="text-slate-300 bg-slate-700 focus:ring focus:outline-none focus:ring-slate-400 p-2 w-full block mt-4 rounded-md resize-none h-full" v-model="page.content" @input="valid = checkValidation()"></textarea>
     </div>
     <div>Here is HTML output</div>
   </div>

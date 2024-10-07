@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import Editor from '@/components/Editor.vue'
 import Button from '@/components/Button.vue'
@@ -16,22 +16,6 @@ const page = ref({
   slug: "",
   content: "",
   enabled: false,
-})
-
-const isPageEmpty = computed(() => {
-  if (page.value.name != "") {
-    return false
-  }
-
-  if (page.value.slug != "") {
-    return false
-  }
-
-  if (page.value.content != "") {
-    return false
-  }
-
-  return true
 })
 
 function createPage() {
@@ -61,8 +45,7 @@ function createPage() {
     </div>
   </div>
   <Editor
-    :page="page"
-    @changePage="(p) => {page = p}"
-    @checkValidation="(v) => { validToCreate = v}"
+    v-model:value="page"
+    v-model:valid="validToCreate"
   />
 </template>

@@ -20,7 +20,7 @@ const updateLoading = ref(false)
 const deleteLoading = ref(false)
 
 const firstForm = ref({})
-const validToUpdate = ref(false)
+const validToUpdate = ref(true)
 const page = ref({
   id: null,
   name: "",
@@ -97,6 +97,7 @@ function deletePage() {
 
 </script>
 <template>
+  {{ validToUpdate }}
   <div class="lg:container mx-auto">
     <div v-if="loading" class="grid place-items-center h-screen">
       <Loader size="150px" color="#333" />
@@ -115,9 +116,8 @@ function deletePage() {
         </div>
       </div>
       <Editor
-        :page="page"
-        @changePage="(p) => {page = p}"
-        @checkValidation="(v) => { validToUpdate = v }"
+        v-model:value="page"
+        v-model:valid="validToUpdate"
         />
     </div>
   </div>
