@@ -97,7 +97,6 @@ function deletePage() {
 
 </script>
 <template>
-  {{ validToUpdate }}
   <div class="lg:container mx-auto">
     <div v-if="loading" class="grid place-items-center h-screen">
       <Loader size="150px" color="#333" />

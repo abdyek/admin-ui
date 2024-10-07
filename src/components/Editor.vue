@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineModel, computed } from 'vue'
+import { ref, computed } from 'vue'
 import Alert from '@/components/Alert.vue'
 import { textToSlug, isValidSlug } from '@/helpers/slug.js'
 
