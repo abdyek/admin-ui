@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios'
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import Loader from '@/components/Loader.vue'
 import Editor from '@/components/Editor.vue'

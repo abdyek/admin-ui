@@ -1,6 +1,8 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import axios from 'axios'
 import Alert from '@/components/Alert.vue'
+import Loader from '@/components/Loader.vue'
 import { textToSlug, isValidSlug } from '@/helpers/slug.js'
 
 const page = defineModel("value", {
@@ -11,6 +13,10 @@ const page = defineModel("value", {
     content: "",
     enabled: false,
   }
+})
+
+onMounted(() => {
+  convert()
 })
 
 const valid = defineModel("valid", {
@@ -58,6 +64,32 @@ function checkValidation() {
   return true
 }
 
+const timeout = ref()
+const html = ref("")
+const convertLoading = ref(false)
+
+function changeContent() {
+  valid.value = checkValidation()
+  clearTimeout(timeout.value)
+  timeout.value = setTimeout(() => {
+    convert()
+  }, 1000)
+}
+
+function convert() {
+  convertLoading.value = true
+  axios.post("/api/v1/converter/markdown-to-html", {
+    markdown: page.value.content,
+  }).then((resp) => {
+    html.value = resp.data.html
+  }).catch((err) => {
+    // TODO: Handle the error
+    console.log(err)
+  }).finally(() => {
+    convertLoading.value = false
+  })
+}
+
 </script>
 <template>
   <input placeholder="Name" class="h-7 text-slate-300 bg-slate-700 w-full block focus:ring focus:outline-none focus:ring-slate-400  p-2 rounded-md mb-3" v-model="page.name" @blur="firstBlurNameField = true" @input="changeName" />
@@ -75,9 +107,14 @@ function checkValidation() {
   <Alert v-if="firstBlurSlugField && invalidSlug" content="Invalid page slug!" color="orange"/>
   <div class="grid grid-cols-2 gap-2">
     <div class="h-[calc(100vh-18rem)]">
-      <textarea placeholder="Content" class="text-slate-300 bg-slate-700 focus:ring focus:outline-none focus:ring-slate-400 p-2 w-full block mt-4 rounded-md resize-none h-full" v-model="page.content" @input="valid = checkValidation()"></textarea>
+      <textarea placeholder="Content" class="text-slate-300 bg-slate-700 focus:ring focus:outline-none focus:ring-slate-400 p-2 w-full block mt-4 rounded-md resize-none h-full" v-model="page.content" @input="changeContent"></textarea>
     </div>
-    <div>Here is HTML output</div>
+    <div class="p-2">
+      <div class="grid place-items-center h-screen" v-if="convertLoading">
+        <Loader size="150px" color="#333" />
+      </div>
+      <div v-html="html" v-else />
+    </div>
   </div>
 </template>
 
