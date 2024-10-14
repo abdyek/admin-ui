@@ -15,7 +15,16 @@ const page = defineModel("value", {
   }
 })
 
+// TODO: Fix tailwindcss Shadow DOM issue https://github.com/tailwindlabs/tailwindcss/discussions/1935
+const shadowHost = ref(null)
+let shadowRoot = null
+
 onMounted(() => {
+
+  if (shadowHost.value) {
+    shadowRoot = shadowHost.value.attachShadow({ mode: 'closed' });
+  }
+
   convert()
 })
 
@@ -65,7 +74,6 @@ function checkValidation() {
 }
 
 const timeout = ref()
-const html = ref("")
 const convertLoading = ref(false)
 
 function changeContent() {
@@ -81,7 +89,8 @@ function convert() {
   axios.post("/api/v1/converter/markdown-to-html", {
     markdown: page.value.content,
   }).then((resp) => {
-    html.value = resp.data.html
+
+    shadowRoot.innerHTML = resp.data.html;
   }).catch((err) => {
     // TODO: Handle the error
     console.log(err)
@@ -113,7 +122,7 @@ function convert() {
       <div class="grid place-items-center h-screen" v-if="convertLoading">
         <Loader size="150px" color="#333" />
       </div>
-      <div v-html="html" v-else />
+      <div ref="shadowHost" v-show="!convertLoading" />
     </div>
   </div>
 </template>
