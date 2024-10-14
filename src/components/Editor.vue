@@ -15,7 +15,6 @@ const page = defineModel("value", {
   }
 })
 
-// TODO: Fix tailwindcss Shadow DOM issue https://github.com/tailwindlabs/tailwindcss/discussions/1935
 const shadowHost = ref(null)
 let shadowRoot = null
 
@@ -89,8 +88,7 @@ function convert() {
   axios.post("/api/v1/converter/markdown-to-html", {
     markdown: page.value.content,
   }).then((resp) => {
-
-    shadowRoot.innerHTML = resp.data.html;
+    shadowRoot.innerHTML = "<div style='background-color: white;'>" + resp.data.html + "</div>"
   }).catch((err) => {
     // TODO: Handle the error
     console.log(err)
@@ -118,12 +116,11 @@ function convert() {
     <div class="h-[calc(100vh-18rem)]">
       <textarea placeholder="Content" class="text-slate-300 bg-slate-700 focus:ring focus:outline-none focus:ring-slate-400 p-2 w-full block mt-4 rounded-md resize-none h-full" v-model="page.content" @input="changeContent"></textarea>
     </div>
-    <div class="p-2">
+    <div>
       <div class="grid place-items-center h-screen" v-if="convertLoading">
         <Loader size="150px" color="#333" />
       </div>
-      <div ref="shadowHost" v-show="!convertLoading" />
+      <div ref="shadowHost" v-show="!convertLoading" style="all: initial" />
     </div>
   </div>
 </template>
-
