@@ -43,8 +43,7 @@ const showSlug = computed(() => {
 })
 
 const slug = computed(() => {
-  // TODO: .com will be dynamic
-  return ".com/" + page.value.slug
+  return "/" + page.value.slug
 })
 
 const invalidName = computed(() => {
@@ -101,14 +100,14 @@ function convert() {
 <template>
   <input placeholder="Name" class="h-7 text-slate-300 bg-slate-700 w-full block focus:ring focus:outline-none focus:ring-slate-400  p-2 rounded-md mb-3" v-model="page.name" @blur="firstBlurNameField = true" @input="changeName" />
   <Alert v-if="firstBlurNameField && invalidName" content="Invalid page name!" color="orange" />
-    <transition
-      name="slide-up"
-      enter-active-class="transition-transform duration-500 ease-in-out"
-      leave-active-class="transition-transform duration-100 ease-in-out"
-      enter-from-class="translate-y-full opacity-0"
-      leave-to-class="translate-y-full opacity-0"
-    >
-    <span class="block" v-if="showSlug">{{ slug }}</span>
+  <transition
+    name="slide-up"
+    enter-active-class="transition-transform duration-500 ease-in-out"
+    leave-active-class="transition-transform duration-100 ease-in-out"
+    enter-from-class="translate-y-full opacity-0"
+    leave-to-class="translate-y-full opacity-0"
+  >
+    <span class="block my-3" v-if="showSlug">{{ slug }}</span>
   </transition>
   <input placeholder="Slug" class="h-7 text-slate-300 bg-slate-700 w-full block focus:ring focus:outline-none focus:ring-slate-400  p-2 rounded-md mb-3" v-model="page.slug" @blur="firstBlurSlugField = true" @input="valid = checkValidation()"/>
   <Alert v-if="firstBlurSlugField && invalidSlug" content="Invalid page slug!" color="orange"/>
