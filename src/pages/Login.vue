@@ -19,7 +19,7 @@ function login() {
     username: username.value,
     password: password.value,
   }).then((resp) => {
-    router.push('/')
+    router.push('/admin')
   }).catch((err) => {
     if (err.response != undefined) {
       if (err.response.status == 401) {

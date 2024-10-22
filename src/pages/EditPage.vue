@@ -82,7 +82,7 @@ function deletePage() {
         action: () => {
           deleteLoading.value = true
           axios.delete('/api/v1/pages/' + props.id).then((resp) => {
-            router.push('/pages')
+            router.push('/admin/pages')
           }).catch((err) => {
             // TODO: Handle the error
             console.log(err)

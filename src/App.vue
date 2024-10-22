@@ -15,7 +15,7 @@ onMounted(() => {
   axios.get('/api/v1/me').then((resp) => {
     loading.value = false
     if (!resp.data.logged_in) {
-      router.push('/login')
+      router.push('/admin/login')
     }
   })
 })

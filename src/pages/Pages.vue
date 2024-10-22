@@ -26,7 +26,7 @@ onMounted(() => {
 <template>
   <div class="mb-4">
     <h2 class="text-2xl inline">Pages</h2>
-    <Button name="Create" color="blue" size="small" @click="router.push('/new-page')" />
+    <Button name="Create" color="blue" size="small" @click="router.push('/admin/new-page')" />
   </div>
   <div v-if="loading" class="grid place-items-center h-screen">
     <Loader size="150px" color="#333"/>

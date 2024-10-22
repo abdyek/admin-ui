@@ -23,7 +23,7 @@ function createPage() {
   axios.post('/api/v1/pages', {
     page: page.value,
   }).then((resp) => {
-    router.push('/pages/' + resp.data.page.id)
+    router.push('/admin/pages/' + resp.data.page.id)
   }).catch((err) => {
     console.log(err)
     // TODO: Handle the error

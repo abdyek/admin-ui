@@ -8,23 +8,23 @@ import EditPage from '@/pages/EditPage.vue'
 
 const routes = [
   {
-    path: '/',
+    path: '/admin',
     component: Home,
   },
   {
-    path: '/login',
+    path: '/admin/login',
     component: Login,
   },
   {
-    path: '/pages',
+    path: '/admin/pages',
     component: Pages,
   },
   {
-    path: '/new-page',
+    path: '/admin/new-page',
     component: NewPage,
   },
   {
-    path: '/pages/:id',
+    path: '/admin/pages/:id',
     component: EditPage,
     props: true,
   },
@@ -32,7 +32,7 @@ const routes = [
 
 if (import.meta.env.MODE == "development") {
   routes.push({
-    path: '/dev/components',
+    path: '/admin/dev/components',
     component: () => import('@/dev/Components.vue'),
   })
 }
