@@ -21,7 +21,7 @@ onMounted(() => {
 })
 
 const noHeader = computed(() => {
-  if (route.path == "/login") {
+  if (route.path == "/admin/login") {
     return true
   }
 
