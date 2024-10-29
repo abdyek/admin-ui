@@ -16,6 +16,8 @@ onMounted(() => {
     loading.value = false
     if (!resp.data.logged_in) {
       router.push('/admin/login')
+    } else if (route.path == "/admin/login") {
+      router.push("/")
     }
   })
 })

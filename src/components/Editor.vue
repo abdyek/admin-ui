@@ -1,9 +1,12 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import axios from 'axios'
 import Alert from '@/components/Alert.vue'
 import Loader from '@/components/Loader.vue'
 import { textToSlug, isValidSlug } from '@/helpers/slug.js'
+
+const router = useRouter()
 
 const page = defineModel("value", {
   default: {
@@ -89,8 +92,12 @@ function convert() {
   }).then((resp) => {
     shadowRoot.innerHTML = "<div style='background-color: white;'>" + resp.data.html + "</div>"
   }).catch((err) => {
-    // TODO: Handle the error
-    console.log(err)
+    // TODO: We need a recovery solution
+    if (err.response != undefined) {
+      if (err.response.status == 401) {
+        router.push('/admin/login')
+      }
+    }
   }).finally(() => {
     convertLoading.value = false
   })

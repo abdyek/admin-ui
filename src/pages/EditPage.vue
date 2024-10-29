@@ -51,7 +51,11 @@ function load() {
     page.value = resp.data.page
     firstForm.value = { ...page.value }
   }).catch((err) => {
-    console.log(err)
+    if (err.response != undefined) {
+      if (err.response.status == 401) {
+        router.push('/admin/login')
+      }
+    }
   })
 }
 
@@ -62,8 +66,11 @@ function updatePage() {
   }).then((resp) => {
     load()
   }).catch((err) => {
-    // TODO: Handle the error
-    console.log(err)
+    if (err.response != undefined) {
+      if (err.response.status == 401) {
+        router.push('/admin/login')
+      }
+    }
   }).finally(() => {
     updateLoading.value = false
   })
@@ -84,8 +91,11 @@ function deletePage() {
           axios.delete('/api/v1/pages/' + props.id).then((resp) => {
             router.push('/admin/pages')
           }).catch((err) => {
-            // TODO: Handle the error
-            console.log(err)
+            if (err.response != undefined) {
+              if (err.response.status == 401) {
+                router.push('/admin/login')
+              }
+            }
           }).finally(() => {
             deleteLoading.value = false
           })

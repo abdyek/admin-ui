@@ -25,9 +25,19 @@ function logout() {
             router.push('/admin/login')
           }).catch((err) => {
             if (err.response.status == 401) {
-              unauthorized.value = true
-              username.value = ""
-              password.value = ""
+              dialogStore.show({
+                title: "Already Sign Out",
+                content: "You are already sign out.",
+                buttons: [
+                  {
+                    name: "OK",
+                    color: "orange",
+                    action: () => {
+                      router.push("/admin/login")
+                    },
+                  },
+                ],
+              })
             }
           }).finally(() => {
             logoutLoading.value = false

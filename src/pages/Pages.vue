@@ -17,8 +17,11 @@ onMounted(() => {
     pages.value = resp.data.pages
     loading.value = false
   }).catch((err) => {
-    // TODO: handle the error
-    console.log(err)
+    if (err.response != undefined) {
+      if (err.response.status == 401) {
+        router.push('/admin/login')
+      }
+    }
   })
 })
 

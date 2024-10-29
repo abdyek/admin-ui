@@ -25,8 +25,11 @@ function createPage() {
   }).then((resp) => {
     router.push('/admin/pages/' + resp.data.page.id)
   }).catch((err) => {
-    console.log(err)
-    // TODO: Handle the error
+    if (err.response != undefined) {
+      if (err.response.status == 401) {
+        router.push('/admin/login')
+      }
+    }
   }).finally(() => {
     loading.value = false
   })
