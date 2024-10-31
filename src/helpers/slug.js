@@ -26,6 +26,9 @@ function textToSlug(text) {
 }
 
 function isValidSlug(slug) {
+  if (slug == "") {
+    return true
+  }
   const pattern = /^[a-z0-9]+(-[a-z0-9]+)*$/
   return pattern.test(slug);
 }
