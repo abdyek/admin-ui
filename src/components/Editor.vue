@@ -8,6 +8,7 @@ import { textToSlug, isValidSlug } from '@/helpers/slug.js'
 
 const router = useRouter()
 
+const firstSlug = ref("")
 const page = defineModel("value", {
   default: {
     id: null,
@@ -26,6 +27,8 @@ onMounted(() => {
   if (shadowHost.value) {
     shadowRoot = shadowHost.value.attachShadow({ mode: 'closed' });
   }
+
+  firstSlug.value = page.value.slug
 
   convert()
 })
@@ -50,16 +53,13 @@ const invalidSlug = computed(() => {
 })
 
 function changeName(e) {
+  changeSlug()
   page.value.slug = textToSlug(e.target.value)
   valid.value = checkValidation()
 }
 
 function checkValidation() {
-  if (invalidName.value) {
-    return false
-  }
-
-  if (invalidSlug.value) {
+  if (invalidName.value || invalidSlug.value || unusableSlug.value || alreadyUsed.value || checkUsableLoading.value || slugTyping.value) {
     return false
   }
 
@@ -95,6 +95,40 @@ function convert() {
   })
 }
 
+const slugTyping = ref(false)
+function changeSlug() {
+  valid.value = checkValidation()
+  slugTyping.value = true
+  clearTimeout(timeout.value)
+  timeout.value = setTimeout(() => {
+    slugTyping.value = false
+    checkSlug()
+  }, 1000)
+}
+
+const checkUsableLoading = ref(false)
+const alreadyUsedSlug  = ref(false)
+const unusableSlug = ref(false)
+
+const alreadyUsed = computed(() => {
+  if (firstSlug.value != page.value.slug && alreadyUsedSlug.value && !slugTyping.value && !checkUsableLoading.value) {
+    return true
+  }
+  return false
+})
+
+function checkSlug() {
+  checkUsableLoading.value = true
+  axios.get("/api/v1/slug/check-usable/" + page.value.slug).then((resp) => {
+    alreadyUsedSlug.value = resp.data.already_used
+    unusableSlug.value = resp.data.unusable
+    checkUsableLoading.value = false      
+    valid.value = checkValidation()
+  }).catch((err) => {
+
+  })
+}
+
 </script>
 <template>
   <input placeholder="Name" class="h-7 text-slate-300 bg-slate-700 w-full block focus:ring focus:outline-none focus:ring-slate-400  p-2 rounded-md mb-3" v-model="page.name" @blur="firstBlurNameField = true" @input="changeName" />
@@ -106,19 +140,21 @@ function convert() {
     enter-from-class="translate-y-full opacity-0"
     leave-to-class="translate-y-full opacity-0"
   >
-    <span class="block my-3" v-if="!invalidSlug">{{ slug }}</span>
+    <span class="block my-3" v-if="!invalidSlug">{{ slug }} <Loader v-if="checkUsableLoading" size="18px" color="#eee"/></span>
   </transition>
-  <input placeholder="Slug" class="h-7 text-slate-300 bg-slate-700 w-full block focus:ring focus:outline-none focus:ring-slate-400  p-2 rounded-md mb-3" v-model="page.slug" @blur="firstBlurSlugField = true" @input="valid = checkValidation()"/>
+  <input placeholder="Slug" class="h-7 text-slate-300 bg-slate-700 w-full block focus:ring focus:outline-none focus:ring-slate-400  p-2 rounded-md mb-3" v-model="page.slug" @blur="firstBlurSlugField = true" @input="changeSlug"/>
   <Alert v-if="firstBlurSlugField && invalidSlug" content="Invalid page slug!" color="orange"/>
+  <Alert v-else-if="unusableSlug" content="This slug is unusable." color="orange"/>
+  <Alert v-else-if="alreadyUsed" content="This slug already used for another page." color="orange"/>
   <div class="grid grid-cols-2 gap-2">
     <div class="h-[calc(100vh-18rem)]">
       <textarea placeholder="Content" class="text-slate-300 bg-slate-700 focus:ring focus:outline-none focus:ring-slate-400 p-2 w-full block mt-4 rounded-md resize-none h-full" v-model="page.content" @input="changeContent"></textarea>
     </div>
     <div>
-      <div class="grid place-items-center h-screen" v-if="convertLoading">
-        <Loader size="150px" color="#333" />
+      <div class="mt-4" v-if="convertLoading">
+        <Loader size="18px" color="#eee" />
       </div>
-      <div ref="shadowHost" v-show="!convertLoading" style="all: initial" />
+      <div ref="shadowHost"  style="all: initial" />
     </div>
   </div>
 </template>
