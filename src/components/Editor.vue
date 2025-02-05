@@ -79,8 +79,8 @@ function changeContent() {
 
 function convert() {
   convertLoading.value = true
-  axios.post("/api/v1/converter/markdown-to-html", {
-    markdown: page.value.content,
+  axios.post("/api/v1/converter/umono-lang-to-html", {
+    umono_lang: page.value.content,
   }).then((resp) => {
     shadowRoot.innerHTML = "<div style='background-color: white;'>" + resp.data.html + "</div>"
   }).catch((err) => {
@@ -88,10 +88,26 @@ function convert() {
     if (err.response != undefined) {
       if (err.response.status == 401) {
         router.push('/admin/login')
+      } else if (err.response.status == 404) {
+        convertLegacy()
       }
     }
   }).finally(() => {
     convertLoading.value = false
+  })
+}
+
+function convertLegacy() {
+  axios.post("/api/v1/converter/markdown-to-html", {
+    markdown: page.value.content,
+  }).then((resp) => {
+    shadowRoot.innerHTML = "<div style='background-color: white;'>" + resp.data.html + "</div>"
+  }).catch((err) => {
+    if (err.response != undefined) {
+      if (err.response.status == 401) {
+        router.push('/admin/login')
+      }
+    }
   })
 }
 
@@ -158,3 +174,8 @@ function checkSlug() {
     </div>
   </div>
 </template>
+<style scoped>
+textarea {
+  font-family: 'JetBrainsMono';
+}
+</style>
