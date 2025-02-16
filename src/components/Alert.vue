@@ -45,7 +45,7 @@ const size = computed(() => {
 </script>
 <template>
   <span :class="['block text-slate-800 rounded-md my-3', 'bg-' + props.color + '-300', size.box]">
-    <span v-if="props.title != null" :class="['text-xl block', size.title]">404</span>
+    <span v-if="props.title != null" :class="['text-xl block', size.title]">{{ props.title }}</span>
     <span :class="[size.content]">{{ props.content }}</span>
   </span>
 </template>

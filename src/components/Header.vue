@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import Button from '@/components/Button.vue'
+import Menu from '@/components/Menu.vue'
 import { useDialogStore } from '@/stores/dialog.js'
 
 const router = useRouter()
@@ -52,8 +53,8 @@ function logout() {
 <template>
   <div class="flex justify-between items-end mb-8 h-20 text-stone-50">
     <div class="flex items-end">
-      <h1 class="text-5xl cursor-pointer" @click="router.push('/admin')">Umono</h1>
-      <h2 class="text-2xl rounded-lg mx-4 cursor-pointer hover:bg-blue-300 p-2" @click="router.push('/admin/pages')">Pages</h2>
+      <h1 class="text-5xl cursor-pointer mr-4" @click="router.push('/admin')">Umono</h1>
+      <Menu />
     </div>
     <div>
       <Button name="Sign out" color="orange" size="small" @click="logout" :loading="logoutLoading" />

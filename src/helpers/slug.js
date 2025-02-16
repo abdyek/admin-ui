@@ -1,17 +1,4 @@
-const turkishMap = {
-  'ç': 'c',
-  'Ç': 'C',
-  'ğ': 'g',
-  'Ğ': 'G',
-  'ş': 's',
-  'Ş': 'S',
-  'ü': 'u',
-  'Ü': 'U',
-  'ö': 'o',
-  'Ö': 'O',
-  'ı': 'i',
-  'İ': 'I'
-};
+import { turkishMap } from '@/helpers/format.js'
 
 function textToSlug(text) {
   return text

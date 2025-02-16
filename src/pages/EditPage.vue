@@ -127,6 +127,7 @@ function deletePage() {
       <Editor
         v-model:value="page"
         v-model:valid="validToUpdate"
+        :editMode="true"
         />
     </div>
   </div>

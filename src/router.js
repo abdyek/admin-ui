@@ -5,6 +5,9 @@ import Login from '@/pages/Login.vue'
 import Pages from '@/pages/Pages.vue'
 import NewPage from '@/pages/NewPage.vue'
 import EditPage from '@/pages/EditPage.vue'
+import EditComponent from '@/pages/EditComponent.vue'
+import Components from '@/pages/Components.vue'
+import NewComponent from '@/pages/NewComponent.vue'
 
 const routes = [
   {
@@ -24,9 +27,22 @@ const routes = [
     component: NewPage,
   },
   {
+    path: '/admin/new-component',
+    component: NewComponent,
+  },
+  {
     path: '/admin/pages/:id',
     component: EditPage,
     props: true,
+  },
+  {
+    path: '/admin/components/:id',
+    component: EditComponent,
+    props: true,
+  },
+  {
+    path: '/admin/components',
+    component: Components,
   },
 ]
 
