@@ -1,5 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router'
+import { rawToRelative } from '@/helpers/day.js'
 
 const router = useRouter()
 
@@ -13,7 +14,7 @@ const props = defineProps({
     <span class="text-l">{{ props.page.name }}</span>
     <a class="text-l text-blue-400" v-if="props.page.enabled" @click.stop="" :href="'/' + props.page.slug" target="_blank">/{{ props.page.slug }}</a>
     <span class="text-l" v-else>/{{ props.page.slug }}</span>
-    <span class="text-l">{{ props.page.last_modified_at }}</span>
+    <span class="text-l">{{ rawToRelative(props.page.last_modified_at) }}</span>
     <span class="text-l">{{ props.page.enabled}}</span>
   </div>
 </template>
