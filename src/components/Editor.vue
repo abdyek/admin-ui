@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import Alert from '@/components/Alert.vue'
@@ -24,6 +24,10 @@ const page = defineModel("value", {
     content: "",
     enabled: false,
   }
+})
+
+watch(() => page.value.slug, () => {
+  valid.value = checkValidation()
 })
 
 const shadowHost = ref(null)
@@ -78,7 +82,6 @@ function checkValidation() {
 const timeout = ref()
 
 function changeContent() {
-  valid.value = checkValidation()
   clearTimeout(timeout.value)
   timeout.value = setTimeout(() => {
     convert()
