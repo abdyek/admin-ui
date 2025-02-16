@@ -5,6 +5,7 @@ import axios from 'axios'
 import Component from '@/components/Component.vue'
 import Button from '@/components/Button.vue'
 import Loader from '@/components/Loader.vue'
+import Alert from '@/components/Alert.vue'
 
 const router = useRouter()
 
@@ -32,11 +33,16 @@ onMounted(() => {
   <div v-if="loading" class="grid place-items-center h-screen">
     <Loader size="150px" color="#333"/>
   </div>
-  <div>
-    <div class="grid grid-cols-2 gap-4 mx-4">
-      <span>Name</span>
-      <span>Last Modified</span>
+  <div v-else>
+    <div v-if="comps.length > 0">
+      <div class="grid grid-cols-2 gap-4 mx-4">
+        <span>Name</span>
+        <span>Last Modified</span>
+      </div>
+      <Component v-for="c in comps" :comp="c" />
     </div>
-    <Component v-for="c in comps" :comp="c" />
+    <div v-else>
+      <Alert color="orange" content="There isn't any component." />
+    </div>
   </div>
 </template>

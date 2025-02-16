@@ -101,7 +101,7 @@ function deleteComp() {
   <div v-else>
     <div class="mb-4 flex justify-between">
       <div>
-        <h2 :class="['transition-all duration-500 ease-in-out', comp.name.length == 0 ? 'text-2xl': 'text-sm']">New Component</h2>
+        <h2 :class="['transition-all duration-500 ease-in-out', comp.name.length == 0 ? 'text-2xl': 'text-sm']">Edit Component</h2>
         <h2 class="text-2xl" v-if="comp.name.length > 0">{{ comp.name }}</h2>
       </div>
       <div>
