@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios'
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import ComponentEditor from '@/components/ComponentEditor.vue'
 import Button from '@/components/Button.vue'
@@ -18,6 +18,9 @@ const loading = ref(true)
 const updateLoading = ref(false)
 const deleteLoading = ref(false)
 
+const firstForm = ref({})
+const validToUpdate = ref(true)
+
 const comp = ref({
   id: null,
   name: "",
@@ -28,11 +31,22 @@ onMounted(() => {
   load()
 })
 
+const changed = computed(() => {
+  for (const key in comp.value) {
+    if (firstForm.value[key] != comp.value[key]) {
+      return true
+    }
+  }
+
+  return false
+})
+
 function load() {
   loading.value = true
   axios.get('/api/v1/components/' + props.id).then((resp) => {
     loading.value = false
     comp.value = resp.data.component
+    firstForm.value = { ...comp.value }
   }).catch((err) => {
     if (err.response != undefined) {
       if (err.response.status == 401) {
@@ -105,13 +119,13 @@ function deleteComp() {
         <h2 class="text-2xl" v-if="comp.name.length > 0">{{ comp.name }}</h2>
       </div>
       <div>
-        <Button :disabled="false" name="Update" color="blue" :loading="updateLoading" @click="updateComp" />
+        <Button :disabled="!validToUpdate || !changed" name="Update" color="blue" :loading="updateLoading" @click="updateComp" />
         <Button name="Delete" color="red" :loading="deleteLoading" @click="deleteComp" />
       </div>
     </div>
     <ComponentEditor
       v-model:value="comp"
-      v-model:valid="validToCreate"
+      v-model:valid="validToUpdate"
     />
   </div>
 </template>

@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import Alert from '@/components/Alert.vue'
 import { textToNumericScreamingSnakeCase } from '@/helpers/format.js'
 
 const router = useRouter()
@@ -38,6 +39,8 @@ onMounted(() => {
 const valid = defineModel("valid", {
   default: false,
 })
+
+const firstBlurNameField = ref(false)
 
 function setName(e) {
   // NOTE: This is a hack. When user inputs any special character, for example ! or ?, component.value.name doesn't refreshed.
@@ -79,7 +82,10 @@ function convert() {
 </script>
 <template>
   <div class="flex flex-row pr-2">
-    <input placeholder="Name" class="basis-1/2 h-7 text-slate-300 bg-slate-700 w-full block focus:ring focus:outline-none focus:ring-slate-400 p-2 rounded-md" @input="setName" @blur="component.name = component.name.replace(/^_+|_+$/g, '')" :value="component.name" />
+    <div class="basis-1/2">
+      <input placeholder="Name" class="h-7 text-slate-300 bg-slate-700 w-full block focus:ring focus:outline-none focus:ring-slate-400 p-2 rounded-md" @input="setName" @blur="component.name = component.name.replace(/^_+|_+$/g, ''); firstBlurNameField = true" :value="component.name" />
+      <Alert v-if="firstBlurNameField && component.name.length == 0" content="Invalid component name!" color="orange" />
+    </div>
   </div>
   <div class="grid grid-cols-2 gap-2">
     <div>
