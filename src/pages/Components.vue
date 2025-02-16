@@ -33,7 +33,7 @@ onMounted(() => {
     <Loader size="150px" color="#333"/>
   </div>
   <div>
-    <div class="grid grid-cols-4 gap-4 mx-4">
+    <div class="grid grid-cols-2 gap-4 mx-4">
       <span>Name</span>
       <span>Last Modified</span>
     </div>

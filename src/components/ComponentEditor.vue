@@ -31,12 +31,24 @@ onMounted(() => {
   if (shadowHost.value) {
     shadowRoot = shadowHost.value.attachShadow({ mode: 'closed' });
   }
+
+  convert()
+})
+
+const valid = defineModel("valid", {
+  default: false,
 })
 
 function setName(e) {
   // NOTE: This is a hack. When user inputs any special character, for example ! or ?, component.value.name doesn't refreshed.
   component.value.name = e.target.value
   component.value.name = textToNumericScreamingSnakeCase(e.target.value)
+
+  if (component.value.name.length == 0) {
+    valid.value = false
+  } else {
+    valid.value = true
+  }
 }
 
 function setContent(e) {
