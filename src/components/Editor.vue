@@ -33,6 +33,15 @@ watch(() => page.value.slug, () => {
 const shadowHost = ref(null)
 let shadowRoot = null
 
+const contentTextarea = ref(null)
+
+function resizeTextarea() {
+  if (contentTextarea.value) {
+    contentTextarea.value.style.height = 'auto'
+    contentTextarea.value.style.height = `${contentTextarea.value.scrollHeight}px`
+  }
+}
+
 onMounted(() => {
 
   if (shadowHost.value) {
@@ -83,6 +92,7 @@ const timeout = ref()
 
 function changeContent() {
   clearTimeout(timeout.value)
+  resizeTextarea()
   timeout.value = setTimeout(() => {
     convert()
   }, 1000)
@@ -176,7 +186,7 @@ function checkSlug() {
   </div>
   <div class="grid grid-cols-2 gap-2">
     <div class="h-[calc(100vh-18rem)]">
-      <textarea placeholder="Content" class="text-slate-300 bg-slate-700 focus:ring focus:outline-none focus:ring-slate-400 p-2 w-full block mt-4 rounded-md resize-none h-full" v-model="page.content" @input="changeContent"></textarea>
+      <textarea ref="contentTextarea" placeholder="Content" :rows="10" class="text-slate-300 bg-slate-700 focus:ring focus:outline-none focus:ring-slate-400 p-2 w-full block mt-4 rounded-md resize-none" v-model="page.content" @input="changeContent"></textarea>
     </div>
     <div>
       <div ref="shadowHost"  style="all: initial" />
