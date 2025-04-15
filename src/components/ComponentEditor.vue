@@ -65,8 +65,9 @@ function setContent(e) {
 
 // TODO: Refactor it with using Composables https://vuejs.org/guide/reusability/composables.html
 function convert() {
-  axios.post("/api/v1/converter/umono-lang-to-html", {
-    umono_lang: component.value.content,
+  axios.post("/api/v1/converter/umono-lang-to-html-for-global-component", {
+    component_name: component.value.name,
+    content: component.value.content,
   }).then((resp) => {
     shadowRoot.innerHTML = "<div style='background-color: white;'>" + resp.data.html + "</div>"
   }).catch((err) => {
